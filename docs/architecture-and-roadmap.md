@@ -1,44 +1,59 @@
 # Architecture and Roadmap
 
-This repo is being shaped into a document-ingestion product with a user-facing front end, an API layer, and optional agent/tooling later.
+This repo is moving to a container-first architecture.
+
+## Primary runtime
+
+- Azure Container App: the main product runtime.
+- It should host the real MCP/agent/workflow service, not a placeholder image.
+- Use a custom image built from this repo, not the portal quickstart image.
+
+## Secondary runtime
+
+- Static Web Apps: user-facing UI shell only.
+- Keep SWA as the front door for the browser experience, but do not make it the system of record for orchestration.
+- SWA should call the container-backed service or a supporting API layer.
+
+## Supporting layer
+
+- Azure Functions: document parsing, extraction helpers, exports, and thin utility routes.
+- Functions stay useful for request/response work that fits the current repo.
+
+## Recommended container image
+
+- Base image: `node:20-bookworm-slim`.
+- Reason: this keeps the image simple, modern, and compatible with the Node 20 baseline already adopted in the repo.
+- Expose the port your app actually listens on, commonly `3000` for Node services.
+- If the container becomes an agent worker, the image should run that worker process directly.
+
+## Files to add next
+
+1. `container/` or `agent/` app code for the real MCP service.
+2. A project `Dockerfile` for the container runtime.
+3. A small HTTP health endpoint or tool endpoint for readiness checks.
+4. Any shared schema/config files the SWA UI and container runtime both need.
+5. A deployment manifest or workflow that builds and pushes the custom image.
 
 ## What stays now
 
-- Front end in `src/`.
-- Azure Functions API in `api/`.
-- Static Web Apps workflow for GitHub deployment.
-- Dev container for local development.
+- `src/` as the UI shell.
+- `api/` as the supporting Functions layer.
 - The Tulip design files in `look/` as product-spec references.
+- The dev container for local development.
 
-## What is optional later
+## What becomes optional or temporary
 
-- A central MCP-driven agent.
-- A separate Azure Container App runtime for long-running agent or worker tasks.
-- Workflow orchestration beyond the core upload/extract/edit/export flow.
-
-## What is not required for the first product slice
-
-- Multiple overlapping deployment paths.
-- Duplicate demo endpoints that do not support the main workflow.
-- Separate app containers unless they are serving a real worker role.
+- The old placeholder/demo endpoint model.
+- Any workflow that deploys a service which is not the real container runtime.
+- A separate container app only for experimentation or placeholder images.
 
 ## Recommended build order
 
-1. User uploads documents.
-2. API extracts candidate fields and line items.
-3. Front end shows an editable template.
-4. User edits and saves the template.
-5. PDF export is generated from the saved template.
-6. History and pattern-reporting are added.
-7. MCP agent review is added last.
-
-## Current repo interpretation
-
-- `src/app.js` currently calls `/api/message`, which is only a placeholder check.
-- `api/src/functions/message.js` is the main sample API endpoint.
-- `api/src/functions/javaproj.js` is a second demo endpoint and can be removed once it is no longer useful.
-- `.github/workflows/azure-static-web-apps-thankful-bay-07257340f.yml` is the primary deployment workflow for this repo.
-- `.github/workflows/deploy-container-app.yml` is a separate Azure Container Apps path and should be treated as optional until it serves a real worker or agent role.
+1. Build the real container service code.
+2. Add the Dockerfile and container deployment workflow.
+3. Keep SWA as the browser UI that consumes the container/API.
+4. Keep Functions for extraction helpers and export utilities.
+5. Add the MCP/agent orchestration once the end-to-end workflow is stable.
 
 ## Tulip takeaways worth reusing
 
@@ -49,4 +64,4 @@ This repo is being shaped into a document-ingestion product with a user-facing f
 
 ## Decision rule
 
-If a file, workflow, or Azure resource does not support the first vertical slice, it should be treated as optional until the core user flow is working end to end.
+If a file, workflow, or Azure resource does not support the real container runtime or the first browser flow, it should be treated as temporary until the core user flow works end to end.

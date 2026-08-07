@@ -5,15 +5,118 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="styles.css">
-  <title>Vanilla JavaScript App</title>
+  <title>Reading Gator</title>
 </head>
 
 <body>
-  <main>
-    <h1>Vanilla JavaScript App</h1>
-    <section>
-      <h2>API message</h2>
-      <div id="apiMessage">Loading message from API...</div>
+  <main class="shell">
+    <section class="hero card">
+      <div>
+        <p class="eyebrow">Reading Gator</p>
+        <h1>Import a document, extract a template, edit it, and keep the learning local.</h1>
+        <p class="lede">This first slice is text-based on purpose. It proves the document workflow end to end before we layer in richer PDF parsing and agents.</p>
+      </div>
+      <div class="hero-stats">
+        <div>
+          <span class="stat-label">Mode</span>
+          <strong>Static Web App + Functions</strong>
+        </div>
+        <div>
+          <span class="stat-label">Next phase</span>
+          <strong>MCP agent review</strong>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid">
+      <article class="card">
+        <div class="section-head">
+          <h2>1. Import</h2>
+          <span class="pill">.txt / .md / .csv / .json</span>
+        </div>
+        <label class="file-drop" for="documentInput">
+          <input id="documentInput" type="file" accept=".txt,.md,.csv,.json,.log,text/plain,text/markdown,application/json,text/csv" />
+          <span>Choose a text-based document</span>
+          <small>PDF and scanned files will come later.</small>
+        </label>
+        <div class="meta-row">
+          <div>
+            <span class="stat-label">Selected file</span>
+            <strong id="selectedFileName">None yet</strong>
+          </div>
+          <div>
+            <span class="stat-label">Status</span>
+            <strong id="analysisStatus">Waiting for upload</strong>
+          </div>
+        </div>
+        <div class="actions">
+          <button id="analyzeButton" class="primary" type="button" disabled>Extract template</button>
+          <button id="resetButton" type="button">Reset draft</button>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="section-head">
+          <h2>2. Extracted template</h2>
+          <span class="pill subtle">editable</span>
+        </div>
+        <div class="form-grid">
+          <label>
+            <span>Document title</span>
+            <input id="documentTitle" type="text" placeholder="Document title" />
+          </label>
+          <label>
+            <span>Customer name</span>
+            <input id="customerName" type="text" placeholder="Customer or buyer" />
+          </label>
+          <label>
+            <span>Reference number</span>
+            <input id="referenceNumber" type="text" placeholder="PO, quote, or order number" />
+          </label>
+          <label>
+            <span>Issue date</span>
+            <input id="issueDate" type="text" placeholder="MM/DD/YYYY" />
+          </label>
+          <label>
+            <span>Total amount</span>
+            <input id="totalAmount" type="text" placeholder="$0.00" />
+          </label>
+          <label class="span-2">
+            <span>Summary</span>
+            <textarea id="summary" rows="4" placeholder="A short working summary"></textarea>
+          </label>
+          <label class="span-2">
+            <span>Notes</span>
+            <textarea id="notes" rows="4" placeholder="Manual edits, learnings, or review comments"></textarea>
+          </label>
+        </div>
+        <div class="actions">
+          <button id="saveButton" class="primary" type="button">Save draft</button>
+          <button id="exportJsonButton" type="button">Export JSON</button>
+          <button id="exportPdfButton" type="button">Export print/PDF view</button>
+        </div>
+      </article>
+    </section>
+
+    <section class="grid lower-grid">
+      <article class="card">
+        <div class="section-head">
+          <h2>3. Extraction preview</h2>
+          <span class="pill subtle">API response</span>
+        </div>
+        <ol id="highlights" class="preview-list">
+          <li>Upload a text file to see the extracted lines here.</li>
+        </ol>
+      </article>
+
+      <article class="card">
+        <div class="section-head">
+          <h2>4. Local memory</h2>
+          <span class="pill subtle">browser storage</span>
+        </div>
+        <div id="memorySummary" class="memory-summary">No draft saved yet.</div>
+        <div class="diagnostics" id="diagnostics"></div>
+      </article>
     </section>
   </main>
 

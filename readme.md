@@ -1,13 +1,13 @@
 # Testrepository
 
-This repo is being shaped into a document-ingestion product with a user-facing front end, an Azure Functions API, and optional agent/tooling later.
+This repo is now moving to a container-first product shape.
 
 ## Current direction
 
-- Keep the Static Web Apps + Functions path as the primary app runtime.
+- Make the Azure Container App the primary runtime for the real MCP/agent/workflow service.
+- Keep Static Web Apps as the secondary browser UI shell.
+- Keep Azure Functions as the supporting extraction and utility layer.
 - Use the Tulip files in `look/` as product and logic references.
-- Add MCP-driven agent behavior only after the core upload/extract/edit/export flow is stable.
-- Treat a separate Container App as optional until it has a real worker or agent job.
 
 ## Working notes
 
@@ -16,6 +16,12 @@ This repo is being shaped into a document-ingestion product with a user-facing f
 - Deployment is currently wired through GitHub Actions.
 - Local dev is wired through the dev container.
 
+## Next build target
+
+- Create a real custom container image from this repo.
+- Add the container service code and a Dockerfile.
+- Keep SWA connected to the browser UI, not as the system of record.
+
 ## Roadmap
 
-See [docs/architecture-and-roadmap.md](docs/architecture-and-roadmap.md) for the keep / phase later / remove map and the recommended build order.
+See [docs/architecture-and-roadmap.md](docs/architecture-and-roadmap.md) for the container-first plan, the suggested image base, and the file list to add next.

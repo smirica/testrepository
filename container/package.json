@@ -1,0 +1,12 @@
+{
+  "name": "reading-gator-containerapp",
+  "version": "1.0.0",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node src/server.js"
+  }
+}
