@@ -2,12 +2,18 @@
   "name": "api",
   "version": "1.0.0",
   "description": "",
+  "private": true,
+  "engines": {
+    "node": "20.x",
+    "npm": ">=10"
+  },
+  "packageManager": "npm@10.8.2",
   "scripts": {
     "start": "func start",
     "test": "echo \"No tests yet...\""
   },
   "dependencies": {
-    "@azure/functions": "^4.0.0"
+    "@azure/functions": "^4.16.2"
   },
   "devDependencies": {},
   "main": "src/{index.js,functions/*.js}"

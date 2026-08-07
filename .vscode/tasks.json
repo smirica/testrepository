@@ -2,10 +2,10 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"type": "func",
+			"type": "shell",
 			"label": "func: host start",
-			"command": "host start",
-			"problemMatcher": "$func-node-watch",
+			"command": "func host start",
+			"problemMatcher": [],
 			"isBackground": true,
 			"dependsOn": "npm install (functions)",
 			"options": {
